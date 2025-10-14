@@ -8,54 +8,60 @@
   <style>
     :root{
       --bg:#0f1223; --card:#ffffff; --muted:#6b7280;
-      --radius:18px; --shadow:0 10px 30px rgba(2,6,23,.15);
       --brandA:#667eea; --brandB:#764ba2;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,'PingFang SC','Noto Sans SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;}
-    body{background:linear-gradient(180deg,#f7f7fc,#fff 20%);}    
-    header{background:var(--bg);background-image:radial-gradient(1000px 300px at 10% -20%,rgba(255,255,255,.2),transparent), radial-gradient(1000px 300px at 90% -20%,rgba(255,255,255,.18),transparent);color:#fff;padding:32px 16px 20px;border-radius:0 0 28px 28px;}
+    html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,'PingFang SC','Noto Sans SC','Hiragino Sans GB','Microsoft YaHei',sans-serif}
+    body{background:linear-gradient(180deg,#f7f7fc,#fff 20%)}
+
+    /* 顶部与搜索、月份条 —— 保持你现有样式 */
+    header{background:#0f1223;color:#fff;
+      background-image:radial-gradient(1000px 300px at 10% -20%,rgba(255,255,255,.2),transparent),
+                       radial-gradient(1000px 300px at 90% -20%,rgba(255,255,255,.18),transparent);
+      padding:32px 16px 20px;border-radius:0 0 28px 28px}
     .container{max-width:1160px;margin:0 auto;padding:0 16px}
-    .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;}
-    .subtitle{opacity:.9;margin-top:6px;font-size:14px}
+    .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px}
     .searchbar{margin:18px 0;display:flex;gap:10px}
-    .searchbar input{flex:1;padding:14px 14px 14px 40px;border-radius:999px;border:none;outline:none;box-shadow:var(--shadow);}
     .searchwrap{position:relative;flex:1.8}
     .searchwrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55}
+    .searchbar input{flex:1;padding:14px 14px 14px 40px;border-radius:999px;border:none;outline:none;box-shadow:0 10px 30px rgba(2,6,23,.15)}
     .tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
     .tab{background:#fff;color:#111;font-weight:600;border-radius:999px;padding:8px 14px;border:1px solid #e5e7eb;cursor:pointer}
     .tab.active{background:linear-gradient(90deg,#ffe3f0,#ece9ff);border-color:#e9d5ff}
 
     main{margin-top:16px}
     .section-title{font-size:22px;font-weight:800;margin:18px 0 4px}
-    .section-sub{color:var(--muted);font-size:13px;margin-bottom:12px}
+    .section-sub{color:#6b7280;font-size:13px;margin-bottom:12px}
 
     .pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #f1f5f9;border-radius:999px;padding:8px 12px;font-weight:700;box-shadow:0 2px 10px rgba(2,6,23,.04)}
-
     .list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-    .qitem{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid #eef2f7;border-radius:14px;padding:14px 14px;cursor:pointer;box-shadow:0 2px 12px rgba(2,6,23,.04)}
+    .qitem{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid #eef2f7;border-radius:14px;padding:14px;cursor:pointer;box-shadow:0 2px 12px rgba(2,6,23,.04)}
+    .qitem:hover{transform:translateX(2px)}
     .qnum{height:28px;width:28px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe4ef,#efe9ff);border-radius:50%;font-weight:800;color:#7c5cff}
     .qtext{font-weight:700}
 
-    /* Modal - redesigned per reference */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,18,35,.55);padding:20px;z-index:50}
+    /* === 浮窗：完全按参考图重排 === */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,18,35,.6);padding:20px;z-index:50}
     .modal.open{display:flex}
-    .dialog{max-width:920px;width:100%;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(2,6,23,.25);overflow:hidden}
-    .dialog header{background:linear-gradient(135deg,var(--brandA),var(--brandB));color:#fff;padding:22px 22px;border-radius:20px 20px 0 0;position:relative}
+    .dialog{max-width:920px;width:100%;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(2,6,23,.28);overflow:hidden}
+    .dialog header{background:linear-gradient(135deg,var(--brandA),var(--brandB));color:#fff;padding:22px;border-radius:20px 20px 0 0;position:relative}
     .dialog h3{margin:0;font-size:20px;font-weight:800}
-    .dialog .meta{margin-top:10px;display:inline-flex;gap:8px}
-    .dialog .meta .chip{background:rgba(255,255,255,.20);backdrop-filter:blur(2px);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700}
-    .dialog .body{padding:22px;max-height:68vh;overflow:auto}
-    .close{position:absolute;right:18px;top:18px;background:rgba(255,255,255,.25);color:#fff;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:18px}
+    .meta{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+    .chip{background:rgba(255,255,255,.22);border-radius:12px;padding:6px 10px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
+    .body{padding:22px;max-height:70vh;overflow:auto}
+    .close{position:absolute;right:16px;top:16px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,.25);color:#fff;font-size:20px;cursor:pointer}
 
-    /* Section typography like reference: more air, emoji headings */
+    /* 浮窗正文：分行 + emoji */
     .md h4{margin:18px 0 10px;font-size:16px;color:#4338ca;display:flex;align-items:center;gap:10px}
-    .md p{line-height:1.85;margin:8px 0 12px;color:#0f172a}
+    .md p{line-height:1.9;margin:8px 0 12px;color:#0f172a}
     .md ul{margin:8px 0 14px 20px}
     .md li{margin-bottom:6px}
-    /* Mom & Dad message card */
-    .mom-message{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%);border:1px solid #f8c9a4;border-radius:14px;padding:16px 16px 14px 16px;margin:16px 0;color:#7c3e1d}
+
+    /* “给妈妈&爸爸的话” 提示卡 */
+    .mom-message{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%);border:1px solid #f8c9a4;border-radius:14px;padding:16px;margin:16px 0;color:#7c3e1d}
     .mom-message h4{margin:0 0 8px 0;color:#b45309}
+
+    .actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -63,7 +69,6 @@
   <header>
     <div class="container">
       <div class="title">👶 <span>0-12个月婴儿 TOP30 问题速查手册</span></div>
-
       <div class="searchbar">
         <div class="searchwrap">
           <span class="icon">🔎</span>
@@ -71,7 +76,6 @@
         </div>
         <button id="clear" class="tab" title="清空搜索">清空</button>
       </div>
-
       <div id="tabs" class="tabs"></div>
     </div>
   </header>
@@ -79,23 +83,22 @@
   <main class="container">
     <div id="monthTitle" class="section-title">新生儿期（0-1个月）</div>
     <div id="monthSub" class="section-sub">适应新世界的第一步</div>
-
     <div id="list" class="list"></div>
-
-    <footer style="margin:36px 0;color:#94a3b8;text-align:center;font-size:12px">
-      Made for 🍼 quick-look use • 全站仅前端文件，放到 GitHub Pages 即可上线
-    </footer>
   </main>
 
+  <!-- 浮窗 -->
   <div id="modal" class="modal" role="dialog" aria-modal="true">
     <div class="dialog">
       <header>
         <button class="close" id="close">✕</button>
         <h3 id="mTitle">标题</h3>
-        <div class="meta"><span class="chip" id="chipMonth">📅 月龄</span><span class="chip" id="chipCat">🏷 分类</span></div>
+        <div class="meta">
+          <span class="chip" id="chipMonth">📅 月龄</span>
+          <span class="chip" id="chipCat">🏷 分类</span>
+        </div>
       </header>
       <div class="body md" id="mBody"></div>
-      <div class="actions" style="display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7">
+      <div class="actions">
         <button id="btnFav" class="tab">⭐ 收藏</button>
         <button id="btnShare" class="tab">🔗 分享</button>
       </div>
@@ -115,45 +118,35 @@ const el={
 
 async function boot(){
   try{
-    const res=await fetch('./all_content.md.txt');
+    const res=await fetch('./all_content.md.txt');   // 确保此文件在仓库根目录
     state.raw=await res.text();
     parse(state.raw);
     renderTabs();
     setMonth(0);
   }catch(e){
     console.error(e);
-    el.list.innerHTML='<div class="note">加载内容失败。请确认仓库根目录存在 <b>all_content.md.txt</b> 文件。</div>'
+    el.list.innerHTML='<div style="padding:12px;border:1px solid #fed7aa;background:#fff7ed;border-radius:12px">加载失败：请确认根目录存在 <b>all_content.md.txt</b></div>';
   }
 }
 
+// 解析：兼容中文冒号 & 不漏分类的第一题
 function parse(md){
-  const monthBlocks=md.split(/
-#\s*「/).filter(Boolean).map((blk,i)=> (i? '「'+blk: blk));
+  const monthBlocks = md.split(/\n#\s*「/).filter(Boolean).map((blk,i)=> (i?'「'+blk:blk));
   state.months = monthBlocks.map(block=>{
-    const lines = block.split(/
-/);
-    const titleLine=lines[0].replace(/^#\s*/, '');
-    const name=(titleLine.match(/「([^」]+)」/i)||[])[1]||titleLine;
+    const titleLine = block.split(/\n/)[0].replace(/^#\s*/,'');
+    const name = (titleLine.match(/「([^」]+)」/i)||[])[1] || titleLine;
 
-    const cats = [];
-    const catSplit = block.split(/
-###\s*\*\*【([^】]+)】\*\*\s*/).slice(1);
+    const cats=[];
+    const catSplit = block.split(/\n###\s*\*\*【([^】]+)】\*\*\s*/).slice(1);
     for(let i=0;i<catSplit.length;i+=2){
-      const cname=catSplit[i];
-      const cbody=catSplit[i+1]||'';
-      const qs = [];
-      const normalized = cbody.replace(/：/g, ':').replace(//g,'');
-      const parts = normalized.split(/(?:^|
-)####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*
-]+)\*\*\s*/).slice(1);
+      const cname = catSplit[i];
+      const cbody = catSplit[i+1]||'';
+      const qs=[];
+      const normalized = cbody.replace(/：/g, ':').replace(/\r/g,''); // 全角冒号→半角，并去 \r
+      const parts = normalized.split(/(?:^|\n)####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
       for(let j=0;j<parts.length;j+=3){
-        const idx=parts[j];
-        const qtitle=parts[j+1];
-        const rest=parts[j+2]||'';
-        const nextBreak = rest.search(/
-####\s|
-###\s|
-#\s/);
+        const idx=parts[j], qtitle=parts[j+1], rest=parts[j+2]||'';
+        const nextBreak = rest.search(/\n####\s|\n###\s|\n#\s/);
         const content = nextBreak===-1? rest : rest.slice(0,nextBreak);
         if(qtitle){
           qs.push({idx:Number(idx), title:qtitle.trim(), content:content.trim(), cat:cname, month:name});
@@ -162,12 +155,17 @@ function parse(md){
       }
       cats.push({name:cname, questions:qs});
     }
-    return {name, sub:'', cats};
+    return {name, cats};
   });
 }
 
 function renderTabs(){
-  el.tabs.innerHTML = state.months.map((m,i)=>`<button class="tab ${i===state.current?'active':''}" data-i="${i}">${m.name.replace('月龄','')}</button>`).join('');
+  el.tabs.innerHTML = state.months.map((m,i)=>{
+    let label = m.name.replace(/月龄/g,'').replace(/[（）]/g,'');
+    if(/^\d+$/.test(label)) label += '月';
+    else if(/^\d+-\d+$/.test(label)) label += '个月';
+    return `<button class="tab ${i===state.current?'active':''}" data-i="${i}">${label}</button>`;
+  }).join('');
   el.tabs.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=> setMonth(Number(btn.dataset.i))));
 }
 
@@ -192,7 +190,7 @@ function renderList(m){
       })
     }
   })
-  el.list.innerHTML=qitems.join('') || '<div class="note">本月暂无解析内容。</div>';
+  el.list.innerHTML=qitems.join('') || '<div style="padding:12px;color:#64748b">本月暂无解析内容。</div>';
   el.list.querySelectorAll('.qitem').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
 }
 
@@ -205,6 +203,7 @@ function emojiForCat(name){
   return '📌';
 }
 
+// 浮窗：按参考图排版 + emoji + 提示卡
 function openModal(title, month){
   const it = state.flatIndex.find(x=>x.title===title && x.month===month) || state.flatIndex.find(x=>x.title===title);
   if(!it){
@@ -213,29 +212,28 @@ function openModal(title, month){
     el.chipCat.textContent='';
     el.mBody.innerHTML='<div class="note">未能定位到该问题的正文，请检查源文档格式。</div>';
   }else{
-    el.mTitle.textContent=it.title;
-    el.chipMonth.textContent='📅 '+it.month;
-    el.chipCat.textContent='🏷 '+it.cat;
+    el.mTitle.textContent = it.title;
+    el.chipMonth.textContent = '📅 '+it.month;
+    el.chipCat.textContent   = '🏷 '+it.cat;
 
+    // 1) 将粗体小节名升级为 h4
     let md = it.content;
-    md = md.replace(/
-\s*\*\*((?:现象|现象解析|原因|原因分析|专家建议|专家指南|解决方案|实操方法|实操|给妈妈(?:&|和)爸爸的话|给妈妈的话|给爸爸妈妈的话))\*\*\s*
-/g,'
-#### $1
-');
+    md = md.replace(/\n\s*\*\*((?:现象|现象解析|原因|原因分析|专家建议|专家指南|解决方案|实操方法|实操|给妈妈(?:&|和)爸爸的话|给妈妈的话|给爸爸妈妈的话))\*\*\s*\n/g,'\n#### $1\n');
+
+    // 2) 渲染为 HTML
     el.mBody.innerHTML = marked.parse(md);
 
+    // 3) 小节标题加 emoji；“给妈妈&爸爸的话”包装为橙色提示卡
     el.mBody.querySelectorAll('h4').forEach(h=>{
       const t=h.textContent.trim();
       if(/现象|原因/.test(t)) h.innerHTML='🔍 '+t;
       if(/专家/.test(t))      h.innerHTML='👨‍⚕️ '+t;
       if(/解决|实操/.test(t)) h.innerHTML='✅ '+t;
       if(/给妈妈|给爸爸/.test(t)){
-        const box=document.createElement('div'); box.className='mom-message';
-        const head=document.createElement('h4'); head.textContent='💝 '+t; box.appendChild(head);
-        let n=h.nextSibling;
-        while(n && n.tagName!=='H4'){ const nx=n.nextSibling; box.appendChild(n); n=nx; }
-        h.replaceWith(box);
+        const wrap=document.createElement('div'); wrap.className='mom-message';
+        const head=document.createElement('h4'); head.textContent='💝 '+t; wrap.appendChild(head);
+        let n=h.nextSibling; while(n && n.tagName!=='H4'){ const nx=n.nextSibling; wrap.appendChild(n); n=nx; }
+        h.replaceWith(wrap);
       }
     });
   }
@@ -244,6 +242,7 @@ function openModal(title, month){
 el.close.addEventListener('click',()=> el.modal.classList.remove('open'));
 el.modal.addEventListener('click',e=>{ if(e.target===el.modal) el.modal.classList.remove('open') });
 
+/* 搜索（全局） */
 el.search.addEventListener('input',()=>{
   const q = el.search.value.trim();
   if(!q){ setMonth(state.current); return; }
@@ -256,8 +255,7 @@ el.search.addEventListener('input',()=>{
     </div>`).join('');
   el.list.querySelectorAll('.qitem').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
 });
-
-el.clear.addEventListener('click',()=>{ el.search.value=''; setMonth(state.current); el.search.focus(); })
+el.clear.addEventListener('click',()=>{ el.search.value=''; setMonth(state.current); el.search.focus(); });
 
 boot();
 </script>
