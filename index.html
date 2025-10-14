@@ -36,7 +36,7 @@
     .qnum{height:28px;width:28px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe4ef,#efe9ff);border-radius:50%;font-weight:800;color:#7c5cff}
     .qtext{font-weight:700}
 
-    /* ===== Modal（仅重排这块） ===== */
+    /* =============== Modal（仅重排这块） =============== */
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,18,35,.55);padding:20px;z-index:50}
     .modal.open{display:flex}
     .dialog{max-width:900px;width:100%;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(2,6,23,.25);overflow:hidden}
@@ -96,7 +96,7 @@
     <footer>Made for 🍼 quick-look use • 全站仅前端文件，放到 GitHub Pages 即可上线</footer>
   </main>
 
-  <!-- 浮窗（只改这块结构） -->
+  <!-- ===== 浮窗（只改这块结构） ===== -->
   <div id="modal" class="modal" role="dialog" aria-modal="true">
     <div class="dialog">
       <button class="close" id="close">✕</button>
@@ -116,7 +116,9 @@
   </div>
 
 <script>
-/** MVP 数据解析与交互（保持你原逻辑不动） */
+/**
+ * MVP 数据解析器（保持你原逻辑）
+ */
 const state={raw:'', months:[], current:0, flatIndex:[]};
 const el={tabs:document.getElementById('tabs'), list:document.getElementById('list'),
           monthTitle:document.getElementById('monthTitle'), monthSub:document.getElementById('monthSub'),
@@ -139,7 +141,7 @@ async function boot(){
 }
 
 function parse(md){
-  // 拆出每月块（保留你的写法）
+  // 拆出每月块：以 # 「 开头的标题分割（保持你的写法）
   const monthBlocks=md.split(/\n#\s*「/).filter(Boolean).map((blk,i)=> (i? '「'+blk: blk));
   state.months = monthBlocks.map(block=>{
     const lines = block.split(/\n/);
@@ -153,11 +155,8 @@ function parse(md){
       const cname=catSplit[i];
       const cbody=catSplit[i+1]||'';
       const qs = [];
-
-      // === 仅此处做容错：首题在块开头 & 中文冒号 ===
-      const normalized = cbody.replace(/：/g, ':').replace(/\r/g,'');
-      const parts = normalized.split(/(?:^|\n)####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
-
+      // 问题：以 #### **问题 x/xx: 标题** 起始（保持你的写法）
+      const parts=cbody.split(/\n####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
       for(let j=0;j<parts.length;j+=3){
         const idx=parts[j];
         const qtitle=parts[j+1];
@@ -226,14 +225,14 @@ function openModal(title, month){
     el.chipMonth.textContent='📅 ' + it.month;
     el.chipCat.textContent='🏷 ' + it.cat;
 
-    // 1) 将“**小节名**”升级为 h4，便于样式与 emoji
+    // 1) 将“**小节名**”升级为 h4，便于样式与 emoji（不改你源 markdown，仅渲染时转换）
     let md = it.content;
     md = md.replace(/\n\s*\*\*((?:现象|现象解析|原因|原因分析|专家建议|专家指南|解决方案|实操方法|实操|给妈妈(?:&|和)爸爸的话|给妈妈的话|给爸爸妈妈的话))\*\*\s*\n/g,'\n#### $1\n');
 
     // 2) 渲染
     el.mBody.innerHTML = marked.parse(md);
 
-    // 3) 给 h4 加 emoji；“给妈妈&爸爸的话”包成暖橙提示卡
+    // 3) 给 h4 加 emoji；把“给妈妈&爸爸的话”包成暖橙提示卡
     el.mBody.querySelectorAll('h4').forEach(h=>{
       const t=h.textContent.trim();
       if(/现象|原因/.test(t)) h.innerHTML='🔍 '+t;
@@ -250,10 +249,11 @@ function openModal(title, month){
   }
   el.modal.classList.add('open');
 }
+
 el.close.addEventListener('click',()=> el.modal.classList.remove('open'));
 el.modal.addEventListener('click',e=>{ if(e.target===el.modal) el.modal.classList.remove('open') })
 
-// 搜索（不动）
+// 搜索：跨所有月份标题/内容（保持你的逻辑）
 el.search.addEventListener('input',()=>{
   const q = el.search.value.trim();
   if(!q){ setMonth(state.current); return; }
