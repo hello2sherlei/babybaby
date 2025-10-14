@@ -138,8 +138,8 @@ function parse(md){
       const cbody=catSplit[i+1]||'';
       const qs = [];
       // 关键修复：统一全角冒号为半角，然后按原规则切分
-      const normalized = cbody.replace(/：/g, ':');
-      const parts = normalized.split(/\n####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
+      const normalized = cbody.replace(/：/g, ':').replace(/\r/g, '');
+      const parts = normalized.split(/(?:^|\n)####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
       for(let j=0;j<parts.length;j+=3){
         const idx=parts[j];
         const qtitle=parts[j+1];
