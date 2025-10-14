@@ -5,63 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>0-12个月婴儿 TOP30 问题速查手册</title>
   <meta name="description" content="专业育儿知识｜快速查找｜贴心解答" />
+  <!-- Minimal CSS (no build tools). Tailwind-like vibes with custom vars. -->
   <style>
     :root{
-      --bg:#0f1223; --muted:#64748b;
-      --ink:#0f172a; --ink2:#334155;
-      --brand1:#ff4d8d; --brand2:#7c5cff;
-      --surface:#ffffff; --line:#e2e8f0;
-      --radius:20px; --shadow:0 10px 30px rgba(2,6,23,.15);
-      --accent:#6d58ff;
-      --blue:#2563eb; --green:#10b981; --orange:#fb923c; --rose:#f43f5e;
+      --bg:#0f1223; --card:#ffffff; --muted:#6b7280; --brand1:#ff4d8d; --brand2:#7c5cff;
+      --fade:linear-gradient(135deg,var(--brand1),var(--brand2));
+      --radius:18px; --shadow:0 10px 30px rgba(2,6,23,.15);
     }
     *{box-sizing:border-box}
-    html,body{margin:0;height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;}
+    html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,'PingFang SC','Noto Sans SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;}
     body{background:linear-gradient(180deg,#f7f7fc,#fff 20%);}    
-    header{background:var(--bg);color:#fff;padding:32px 16px 20px;border-radius:0 0 28px 28px;
-      background-image:radial-gradient(1000px 300px at 10% -20%,rgba(255,255,255,.2),transparent),
-      radial-gradient(1000px 300px at 90% -20%,rgba(255,255,255,.18),transparent);}
-    .container{max-width:1180px;margin:0 auto;padding:0 16px}
+    header{background:var(--bg);background-image:radial-gradient(1000px 300px at 10% -20%,rgba(255,255,255,.2),transparent), radial-gradient(1000px 300px at 90% -20%,rgba(255,255,255,.18),transparent);color:#fff;padding:32px 16px 20px;border-radius:0 0 28px 28px;}
+    .container{max-width:1160px;margin:0 auto;padding:0 16px}
     .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;}
-    .searchbar{margin:18px 0;display:flex;gap:12px}
-    .searchbar input{flex:1;padding:14px 14px 14px 46px;border-radius:999px;border:none;outline:none;box-shadow:var(--shadow);}
-    .searchwrap{position:relative;flex:1.9}
+    .subtitle{opacity:.9;margin-top:6px;font-size:14px}
+    .searchbar{margin:18px 0;display:flex;gap:10px}
+    .searchbar input{flex:1;padding:14px 14px 14px 40px;border-radius:999px;border:none;outline:none;box-shadow:var(--shadow);}
+    .searchwrap{position:relative;flex:1.8}
     .searchwrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55}
     .tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
     .tab{background:#fff;color:#111;font-weight:600;border-radius:999px;padding:8px 14px;border:1px solid #e5e7eb;cursor:pointer}
     .tab.active{background:linear-gradient(90deg,#ffe3f0,#ece9ff);border-color:#e9d5ff}
 
     main{margin-top:16px}
-    .section-title{font-size:22px;font-weight:800;margin:18px 0 4px;color:var(--ink)}
+    .section-title{font-size:22px;font-weight:800;margin:18px 0 4px}
     .section-sub{color:var(--muted);font-size:13px;margin-bottom:12px}
 
     .pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #f1f5f9;border-radius:999px;padding:8px 12px;font-weight:700;box-shadow:0 2px 10px rgba(2,6,23,.04)}
 
     .list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
     .qitem{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid #eef2f7;border-radius:14px;padding:14px 14px;cursor:pointer;box-shadow:0 2px 12px rgba(2,6,23,.04)}
-    .qitem:hover{transform:translateY(-1px);transition:.15s ease}
     .qnum{height:28px;width:28px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe4ef,#efe9ff);border-radius:50%;font-weight:800;color:#7c5cff}
-    .qtext{font-weight:700;color:var(--ink)}
+    .qtext{font-weight:700}
 
     /* Modal */
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,18,35,.55);padding:20px;z-index:50}
     .modal.open{display:flex}
-    .dialog{max-width:960px;width:100%;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(2,6,23,.25);overflow:hidden}
-    .dialog header{background:linear-gradient(90deg,rgba(255,77,141,.12),rgba(124,92,255,.12));color:#111;padding:18px 20px;border-radius:20px 20px 0 0;border-bottom:1px solid #e9d5ff}
-    .dialog h3{margin:0;font-size:20px;font-weight:800;color:#111}
-    .badges{display:flex;gap:8px;margin-top:10px}
-    .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid #e5e7eb;background:#fff;color:#334155}
-    .badge i{font-style:normal;opacity:.7}
-    .dialog .body{padding:22px 22px 8px;max-height:64vh;overflow:auto}
+    .dialog{max-width:900px;width:100%;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(2,6,23,.25);overflow:hidden}
+    .dialog header{background:linear-gradient(90deg,rgba(255,77,141,.12),rgba(124,92,255,.12));color:#111;padding:16px;border-radius:18px 18px 0 0}
+    .dialog h3{margin:0;font-size:18px}
+    .dialog .meta{color:#6b7280;font-size:12px;margin-top:6px}
+    .dialog .body{padding:18px;max-height:68vh;overflow:auto}
     .close{position:absolute;right:18px;top:18px;background:#fff;border:none;border-radius:50%;width:34px;height:34px;box-shadow:var(--shadow);cursor:pointer}
     .actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7}
 
-    /* Markdown-styled content to match screenshot */
-    .md h4{margin:18px 0 8px;font-size:16px;color:var(--blue);display:flex;align-items:center;gap:8px}
-    .md h4:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--blue)}
-    .md p{line-height:1.75;margin:10px 0;color:#0f172a}
-    .md ul{margin:6px 0 12px 22px;color:#0f172a}
-    .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 14px 14px 16px;margin-top:14px;color:#9a3412}
+    /* Markdown basics */
+    .md h4,.md h5{margin:14px 0 6px}
+    .md p{line-height:1.65;margin:10px 0}
+    .md ul{margin:6px 0 12px 18px}
+    .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;margin-top:12px}
 
     footer{margin:36px 0;color:#94a3b8;text-align:center;font-size:12px}
   </style>
@@ -71,6 +63,7 @@
   <header>
     <div class="container">
       <div class="title">👶 <span>0-12个月婴儿 TOP30 问题速查手册</span></div>
+      
 
       <div class="searchbar">
         <div class="searchwrap">
@@ -86,39 +79,40 @@
 
   <main class="container">
     <div id="monthTitle" class="section-title">新生儿期（0-1个月）</div>
-    <div id="monthSub" class="section-sub"></div>
+    <div id="monthSub" class="section-sub">适应新世界的第一步</div>
 
-    <div id="list" class="list"></div>
+        <div id="list" class="list"></div>
 
-    <footer>Made for 🍼 quick-look use</footer>
+    <footer>Made for 🍼 quick-look use • 全站仅前端文件，放到 GitHub Pages 即可上线</footer>
   </main>
 
-  <div id="modal" class="modal" role="dialog" aria-modal="true">
-    <div class="dialog">
-      <button class="close" id="close">✕</button>
+  <div id=\"modal\" class=\"modal\" role=\"dialog\" aria-modal=\"true\">
+    <div class=\"dialog\">
+      <button class=\"close\" id=\"close\">✕</button>
       <header>
-        <h3 id="mTitle">标题</h3>
-        <div class="badges">
-          <div class="badge"><i>📅</i><span id="bMonth">月龄</span></div>
-          <div class="badge"><i>🏷</i><span id="bCat">分类</span></div>
-        </div>
+        <h3 id=\"mTitle\">标题</h3>
+        <div class=\"meta\" id=\"mMeta\"></div>
       </header>
-      <div class="body md" id="mBody"></div>
-      <div class="actions">
-        <button id="btnFav" class="tab">⭐ 收藏</button>
-        <button id="btnShare" class="tab">🔗 分享</button>
+      <div class=\"body md\" id=\"mBody\"></div>
+      <div class=\"actions\" style=\"display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7\">
+        <button id=\"btnFav\" class=\"tab\">⭐ 收藏</button>
+        <button id=\"btnShare\" class=\"tab\">🔗 分享</button>
       </div>
     </div>
   </div>
 
 <script>
+/**
+ * MVP 数据解析器
+ * 读取 ./all_content.md.txt（你仓库里的同名文件），将内容按“月份块 → 分类 → 问题”解析
+ * 解析容错：只要保留了文档里的 # 「…月龄」 / ### 【分类】 / #### **问题 x/xx: 标题** 结构，就能渲染
+ */
 const state={raw:'', months:[], current:0, flatIndex:[]};
 const el={tabs:document.getElementById('tabs'), list:document.getElementById('list'),
           monthTitle:document.getElementById('monthTitle'), monthSub:document.getElementById('monthSub'),
           search:document.getElementById('search'), clear:document.getElementById('clear'),
           modal:document.getElementById('modal'), mTitle:document.getElementById('mTitle'),
-          mBody:document.getElementById('mBody'), close:document.getElementById('close'),
-          bMonth:document.getElementById('bMonth'), bCat:document.getElementById('bCat')};
+          mMeta:document.getElementById('mMeta'), mBody:document.getElementById('mBody'), close:document.getElementById('close')};
 
 async function boot(){
   try{
@@ -134,44 +128,45 @@ async function boot(){
 }
 
 function parse(md){
-  const monthBlocks=md.split(/\\n#\\s*「/).filter(Boolean).map((blk,i)=> (i? '「'+blk: blk));
+  // 拆出每月块：以 # 「 开头的标题分割
+  const monthBlocks=md.split(/\n#\s*「/).filter(Boolean).map((blk,i)=> (i? '「'+blk: blk));
   state.months = monthBlocks.map(block=>{
-    const lines = block.split(/\\n/);
-    const titleLine=lines[0].replace(/^#\\s*/, '');
+    const lines = block.split(/\n/);
+    // 月份标题，如 「0-1月龄」黄金问题列表…，取第一行
+    const titleLine=lines[0].replace(/^#\s*/, '');
     const name=(titleLine.match(/「([^」]+)」/i)||[])[1]||titleLine;
+    // 次级说明（可选）
+    const sub = (block.match(/\n\n###[^\n]+\n/)?'':'');
 
+    // 分类：以 ### **【分类】** 为标记
     const cats = [];
-    const catSplit = block.split(/\\n###\\s*\\*\\*【([^】]+)】\\*\\*\\s*/).slice(1);
+    const catSplit = block.split(/\n###\s*\*\*【([^】]+)】\*\*\s*/).slice(1);
     for(let i=0;i<catSplit.length;i+=2){
       const cname=catSplit[i];
       const cbody=catSplit[i+1]||'';
       const qs = [];
-      // 允许冒号为 : 或 ：
-      const parts=cbody.split(/\\n####\\s*\\*\\*问题\\s*([0-9]+)\\/[0-9]+[:：]\\s*([^*\\n]+)\\*\\*\\s*/).slice(1);
+      // 问题：以 #### **问题 x/xx: 标题** 起始，到下一个 #### 或 ### 或末尾
+      const parts=cbody.split(/\n####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
       for(let j=0;j<parts.length;j+=3){
         const idx=parts[j];
         const qtitle=parts[j+1];
         const rest=parts[j+2]||'';
-        const nextBreak = rest.search(/\\n####\\s|\\n###\\s|\\n#\\s/);
+        // 内容直到下一个 #### 或 ###
+        const nextBreak = rest.search(/\n####\s|\n###\s|\n#\s/);
         const content = nextBreak===-1? rest : rest.slice(0,nextBreak);
         if(qtitle){
           qs.push({idx:Number(idx), title:qtitle.trim(), content:content.trim(), cat:cname, month:name});
           state.flatIndex.push({month:name, cat:cname, title:qtitle.trim(), content:content.trim()});
         }
       }
-      if(qs.length) cats.push({name:cname, questions:qs});
+      cats.push({name:cname, questions:qs});
     }
     return {name, sub:'', cats};
   });
 }
 
 function renderTabs(){
-  el.tabs.innerHTML = state.months.map((m,i)=>{
-    let label = m.name.replace(/月龄/g,'').replace(/[（）]/g,'');
-    if(/^\\d+$/.test(label)) label += '月';
-    else if(/^\\d+\\-\\d+$/.test(label)) label += '个月';
-    return `<button class="tab ${i===state.current?'active':''}" data-i="${i}">${label}</button>`;
-  }).join('');
+  el.tabs.innerHTML = state.months.map((m,i)=>`<button class="tab ${i===state.current?'active':''}" data-i="${i}">${m.name.replace('月龄','')}</button>`).join('');
   el.tabs.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=> setMonth(Number(btn.dataset.i))));
 }
 
@@ -210,27 +205,16 @@ function emojiForCat(name){
 }
 
 function openModal(title, month){
+  // 在 flatIndex 里找问题
   const it = state.flatIndex.find(x=>x.title===title && x.month===month) || state.flatIndex.find(x=>x.title===title);
   if(!it){
     el.mTitle.textContent=title;
-    el.bMonth.textContent=month||'';
-    el.bCat.textContent='';
+    el.mMeta.textContent=month||'';
     el.mBody.innerHTML='<div class="note">未能定位到该问题的正文，请检查源文档格式。</div>';
   }else{
     el.mTitle.textContent=it.title;
-    el.bMonth.textContent=it.month;
-    el.bCat.textContent=it.cat;
-    // 将 **小节标题** 转 h4，并高亮，贴近参考图
-    let html = it.content.replace(/\\n\\s*\\*\\*([^\\n*]+)\\*\\*\\s*\\n/g, '\\n#### $1\\n');
-    el.mBody.innerHTML = marked.parse(html);
-    // “给妈妈的话”渲染为橙色提示框
-    el.mBody.querySelectorAll('h4').forEach(h=>{
-      if(h.textContent.includes('给妈妈')){
-        const wrap=document.createElement('div'); wrap.className='note';
-        while(h.nextSibling && h.nextSibling.tagName!=='H4'){ wrap.appendChild(h.nextSibling); }
-        h.replaceWith(wrap);
-      }
-    });
+    el.mMeta.textContent = `${month} · ${it.cat}`;
+    el.mBody.innerHTML = marked.parse(it.content.replace(/\*\*(.*?)\*\*/g,'**$1**'));
   }
   el.modal.classList.add('open');
 }
@@ -238,23 +222,7 @@ function openModal(title, month){
 el.close.addEventListener('click',()=> el.modal.classList.remove('open'));
 el.modal.addEventListener('click',e=>{ if(e.target===el.modal) el.modal.classList.remove('open') })
 
-// 收藏与分享
-const favKey = (t)=>`fav::${t}`;
-document.getElementById('btnFav').addEventListener('click',()=>{
-  const t = el.mTitle.textContent;
-  const k=favKey(t);
-  const isFav = localStorage.getItem(k)==='1';
-  if(isFav){ localStorage.removeItem(k); alert('已取消收藏'); }
-  else { localStorage.setItem(k,'1'); alert('已收藏'); }
-});
-document.getElementById('btnShare').addEventListener('click',async()=>{
-  const url = location.href;
-  const title = el.mTitle.textContent;
-  try{ if(navigator.share){ await navigator.share({title, text:title, url}); return;} }catch(e){}
-  try{ await navigator.clipboard.writeText(url+'#'+encodeURIComponent(title)); alert('链接已复制，可直接分享给朋友'); }catch(e){ alert('复制失败，请手动复制地址栏链接'); }
-});
-
-// 搜索
+// 搜索：跨所有月份标题/内容（仅索引标题，点击后打开详情）
 el.search.addEventListener('input',()=>{
   const q = el.search.value.trim();
   if(!q){ setMonth(state.current); return; }
