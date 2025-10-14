@@ -1,149 +1,147 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>0-12个月婴儿 TOP30 问题速查手册</title>
-  <meta name="description" content="专业育儿知识｜快速查找｜贴心解答" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>0-12个月婴儿TOP30问题速查手册</title>
   <style>
-    :root{
-      --bg:#0f1223; --card:#ffffff; --muted:#6b7280; --brand1:#ff4d8d; --brand2:#7c5cff;
-      --fade:linear-gradient(135deg,var(--brand1),var(--brand2));
-      --radius:18px; --shadow:0 10px 30px rgba(2,6,23,.15);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,'PingFang SC','Noto Sans SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;}
-    body{background:linear-gradient(180deg,#f7f7fc,#fff 20%);}    
-    header{background:var(--bg);background-image:radial-gradient(1000px 300px at 10% -20%,rgba(255,255,255,.2),transparent), radial-gradient(1000px 300px at 90% -20%,rgba(255,255,255,.18),transparent);color:#fff;padding:32px 16px 20px;border-radius:0 0 28px 28px;}
-    .container{max-width:1160px;margin:0 auto;padding:0 16px}
-    .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;}
-    .subtitle{opacity:.9;margin-top:6px;font-size:14px}
-    .searchbar{margin:18px 0;display:flex;gap:10px}
-    .searchbar input{flex:1;padding:14px 14px 14px 40px;border-radius:999px;border:none;outline:none;box-shadow:var(--shadow);}
-    .searchwrap{position:relative;flex:1.8}
-    .searchwrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55}
-    .tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
-    .tab{background:#fff;color:#111;font-weight:600;border-radius:999px;padding:8px 14px;border:1px solid #e5e7eb;cursor:pointer}
-    .tab.active{background:linear-gradient(90deg,#ffe3f0,#ece9ff);border-color:#e9d5ff}
-
-    main{margin-top:16px}
-    .section-title{font-size:22px;font-weight:800;margin:18px 0 4px}
-    .section-sub{color:var(--muted);font-size:13px;margin-bottom:12px}
-
-    .pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #f1f5f9;border-radius:999px;padding:8px 12px;font-weight:700;box-shadow:0 2px 10px rgba(2,6,23,.04)}
-
-    .list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-    .qitem{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid #eef2f7;border-radius:14px;padding:14px 14px;cursor:pointer;box-shadow:0 2px 12px rgba(2,6,23,.04)}
-    .qnum{height:28px;width:28px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe4ef,#efe9ff);border-radius:50%;font-weight:800;color:#7c5cff}
-    .qtext{font-weight:700}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px;line-height:1.6}
+    .container{max-width:1200px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden}
+    .header{background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);color:#fff;padding:30px;text-align:center}
+    .header h1{font-size:28px;margin-bottom:10px}
+    .header p{font-size:14px;opacity:.9}
+    .search-box{padding:20px 30px;background:#f8f9fa;border-bottom:2px solid #e9ecef}
+    .search-input{width:100%;padding:12px 20px;border:2px solid #e9ecef;border-radius:25px;font-size:15px;transition:.3s} 
+    .search-input:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+    .month-tabs{display:flex;overflow-x:auto;background:#f8f9fa;padding:10px;gap:8px;border-bottom:2px solid #e9ecef;-webkit-overflow-scrolling:touch}
+    .month-tabs::-webkit-scrollbar{height:6px}
+    .month-tabs::-webkit-scrollbar-thumb{background:#667eea;border-radius:3px}
+    .month-tab{flex-shrink:0;padding:12px 20px;background:#fff;border:2px solid #e9ecef;border-radius:25px;cursor:pointer;transition:.3s;font-size:14px;font-weight:500;white-space:nowrap}
+    .month-tab:hover{border-color:#667eea;transform:translateY(-2px)}
+    .month-tab.active{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-color:transparent}
+    .content{padding:30px}
+    .section-header{margin-bottom:20px}
+    .section-header h2{color:#764ba2;font-size:24px;margin-bottom:8px}
+    .section-header .subtitle{color:#6c757d;font-size:14px}
+    .category{margin-bottom:30px}
+    .category-title{display:inline-block;background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);color:#fff;padding:8px 20px;border-radius:20px;font-size:16px;font-weight:600;margin-bottom:15px}
+    .question-list{display:grid;gap:12px}
+    .question-item{background:#f8f9fa;padding:15px 20px;border-radius:12px;cursor:pointer;transition:.3s;border:2px solid transparent;display:flex;align-items:center;gap:12px}
+    .question-item:hover{background:#e9ecef;border-color:#667eea;transform:translateX(5px)}
+    .question-number{flex-shrink:0;width:32px;height:32px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
+    .question-text{flex:1;color:#212529;font-size:15px}
 
     /* Modal */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,18,35,.55);padding:20px;z-index:50}
-    .modal.open{display:flex}
-    .dialog{max-width:900px;width:100%;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(2,6,23,.25);overflow:hidden}
-    .dialog header{background:linear-gradient(90deg,rgba(255,77,141,.12),rgba(124,92,255,.12));color:#111;padding:16px;border-radius:18px 18px 0 0}
-    .dialog h3{margin:0;font-size:18px}
-    .dialog .meta{color:#6b7280;font-size:12px;margin-top:6px}
-    .dialog .body{padding:18px;max-height:68vh;overflow:auto}
-    .close{position:absolute;right:18px;top:18px;background:#fff;border:none;border-radius:50%;width:34px;height:34px;box-shadow:var(--shadow);cursor:pointer}
-    .actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7}
+    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;padding:20px;overflow-y:auto;animation:fadeIn .3s}
+    .modal.active{display:flex;align-items:center;justify-content:center}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .modal-content{background:#fff;border-radius:20px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;animation:slideUp .3s}
+    @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .modal-header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:25px;position:sticky;top:0;z-index:10}
+    .modal-header h3{font-size:20px;margin-bottom:8px}
+    .question-tag{background:rgba(255,255,255,.2);padding:4px 12px;border-radius:12px;font-size:12px;display:inline-block}
+    .close-btn{position:absolute;top:20px;right:20px;width:36px;height:36px;background:rgba(255,255,255,.2);border:none;border-radius:50%;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s}
+    .close-btn:hover{background:rgba(255,255,255,.3);transform:rotate(90deg)}
+    .modal-body{padding:30px}
+    /* Content styling inside modal */
+    .modal-body .md h4{color:#764ba2;font-size:16px;margin:18px 0 12px;display:flex;align-items:center;gap:8px}
+    .modal-body .md h4::before{content:'';width:4px;height:16px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:2px}
+    .modal-body .md p,.modal-body .md ul{color:#495057;font-size:15px;line-height:1.8}
+    .modal-body .md ul{list-style:none;padding-left:0}
+    .modal-body .md li{padding-left:20px;position:relative;margin-bottom:8px}
+    .modal-body .md li::before{content:'•';position:absolute;left:0;color:#667eea;font-weight:bold}
+    .mom-message{background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%);padding:20px;border-radius:12px;border-left:4px solid #f5576c;margin-top:12px}
+    .mom-message h4{color:#c7254e;margin-bottom:10px}
+    .mom-message h4::before{background:#f5576c}
+    .mom-message p{color:#6d3a2e}
 
-    /* Markdown basics */
-    .md h4,.md h5{margin:14px 0 6px}
-    .md p{line-height:1.65;margin:10px 0}
-    .md ul{margin:6px 0 12px 18px}
-    .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;margin-top:12px}
-
-    footer{margin:36px 0;color:#94a3b8;text-align:center;font-size:12px}
+    @media (max-width:768px){
+      body{padding:10px}
+      .header h1{font-size:22px}
+      .content{padding:20px}
+      .month-tab{padding:10px 16px;font-size:13px}
+      .modal-content{margin:10px}
+      .modal-body{padding:20px}
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <div class="title">👶 <span>0-12个月婴儿 TOP30 问题速查手册</span></div>
-
-      <div class="searchbar">
-        <div class="searchwrap">
-          <span class="icon">🔎</span>
-          <input id="search" placeholder="搜索问题关键词…（如：黄疸 / 吐奶 / 枕头 / 俯趴）" />
-        </div>
-        <button id="clear" class="tab" title="清空搜索">清空</button>
-      </div>
-
-      <div id="tabs" class="tabs"></div>
+  <div class="container">
+    <div class="header">
+      <h1>👶 0-12个月婴儿TOP30问题速查手册</h1>
+      <p>专业育儿知识 | 快速查找 | 贴心解答</p>
     </div>
-  </header>
 
-  <main class="container">
-    <div id="monthTitle" class="section-title">新生儿期（0-1个月）</div>
-    <div id="monthSub" class="section-sub">适应新世界的第一步</div>
+    <div class="search-box">
+      <input type="text" id="search" class="search-input" placeholder="🔍 搜索问题关键词...">
+    </div>
 
-    <div id="list" class="list"></div>
+    <div class="month-tabs" id="monthTabs"></div>
 
-    <footer>Made for 🍼 quick-look use • 全站仅前端文件，放到 GitHub Pages 即可上线</footer>
-  </main>
+    <div class="content" id="content"></div>
+  </div>
 
-  <div id="modal" class="modal" role="dialog" aria-modal="true">
-    <div class="dialog">
-      <button class="close" id="close">✕</button>
-      <header>
-        <h3 id="mTitle">标题</h3>
-        <div class="meta" id="mMeta"></div>
-      </header>
-      <div class="body md" id="mBody"></div>
-      <div class="actions">
-        <button id="btnFav" class="tab">⭐ 收藏</button>
-        <button id="btnShare" class="tab">🔗 分享</button>
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close-btn" id="closeBtn">×</button>
+        <h3 id="modalTitle">标题</h3>
+        <div class="question-tag" id="questionTag"></div>
+      </div>
+      <div class="modal-body">
+        <div class="md" id="modalBody"></div>
       </div>
     </div>
   </div>
 
 <script>
-/**
- * MVP 数据解析器 —— 完全保留你给的 UI/UX，只修复解析，链接仓库 all_content.md.txt
- */
 const state={raw:'', months:[], current:0, flatIndex:[]};
-const el={tabs:document.getElementById('tabs'), list:document.getElementById('list'),
-          monthTitle:document.getElementById('monthTitle'), monthSub:document.getElementById('monthSub'),
-          search:document.getElementById('search'), clear:document.getElementById('clear'),
-          modal:document.getElementById('modal'), mTitle:document.getElementById('mTitle'),
-          mMeta:document.getElementById('mMeta'), mBody:document.getElementById('mBody'), close:document.getElementById('close')};
+const el={
+  monthTabs:document.getElementById('monthTabs'),
+  content:document.getElementById('content'),
+  search:document.getElementById('search'),
+  modal:document.getElementById('modal'),
+  closeBtn:document.getElementById('closeBtn'),
+  modalTitle:document.getElementById('modalTitle'),
+  questionTag:document.getElementById('questionTag'),
+  modalBody:document.getElementById('modalBody')
+};
 
 async function boot(){
   try{
-    const res=await fetch('./all_content.md.txt'); // 仓库根目录
+    const res=await fetch('./all_content.md.txt');
     state.raw=await res.text();
     parse(state.raw);
     renderTabs();
     setMonth(0);
   }catch(e){
     console.error(e);
-    el.list.innerHTML='<div class="note">加载内容失败。请确认仓库根目录存在 <b>all_content.md.txt</b> 文件。</div>'
+    el.content.innerHTML = '<div style="padding:20px;color:#c00">加载失败：请确认仓库根目录存在 <b>all_content.md.txt</b>。</div>';
   }
 }
 
-// 解析：兼容英文冒号 : 和中文冒号 ：
+// Parser: supports full-width colon and first-question-at-start
 function parse(md){
-  const monthBlocks=md.split(/\n#\s*「/).filter(Boolean).map((blk,i)=> (i? '「'+blk: blk));
+  const monthBlocks = md.split(/\n#\s*「/).filter(Boolean).map((blk,i)=> (i?'「'+blk:blk));
   state.months = monthBlocks.map(block=>{
-    const lines = block.split(/\n/);
-    const titleLine=lines[0].replace(/^#\s*/, '');
-    const name=(titleLine.match(/「([^」]+)」/i)||[])[1]||titleLine;
+    const titleLine = block.split(/\n/)[0].replace(/^#\s*/,''); // full first line
+    const name = (titleLine.match(/「([^」]+)」/i)||[])[1] || titleLine;
 
-    const cats = [];
+    const cats=[];
     const catSplit = block.split(/\n###\s*\*\*【([^】]+)】\*\*\s*/).slice(1);
     for(let i=0;i<catSplit.length;i+=2){
-      const cname=catSplit[i];
-      const cbody=catSplit[i+1]||'';
-      const qs = [];
-      // 关键修复：统一全角冒号为半角，然后按原规则切分
-      const normalized = cbody.replace(/：/g, ':').replace(/\r/g, '');
+      const cname = catSplit[i];
+      const cbody = catSplit[i+1]||'';
+      const qs=[];
+      const normalized = cbody.replace(/：/g, ':').replace(/\r/g,'');
       const parts = normalized.split(/(?:^|\n)####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
       for(let j=0;j<parts.length;j+=3){
-        const idx=parts[j];
-        const qtitle=parts[j+1];
-        const rest=parts[j+2]||'';
+        const idx = parts[j];
+        const qtitle = parts[j+1];
+        const rest = parts[j+2] || '';
         const nextBreak = rest.search(/\n####\s|\n###\s|\n#\s/);
         const content = nextBreak===-1? rest : rest.slice(0,nextBreak);
         if(qtitle){
@@ -153,82 +151,95 @@ function parse(md){
       }
       cats.push({name:cname, questions:qs});
     }
-    return {name, sub:'', cats};
+    return {name, cats};
   });
 }
 
 function renderTabs(){
-  el.tabs.innerHTML = state.months.map((m,i)=>`<button class="tab ${i===state.current?'active':''}" data-i="${i}">${m.name.replace('月龄','')}</button>`).join('');
-  el.tabs.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=> setMonth(Number(btn.dataset.i))));
+  el.monthTabs.innerHTML = state.months.map((m,i)=>{
+    let label = m.name.replace(/月龄/g,'').replace(/[（）]/g,'');
+    if(/^\d+$/.test(label)) label+='月';
+    else if(/^\d+-\d+$/.test(label)) label+='个月';
+    return `<div class="month-tab ${i===state.current?'active':''}" data-i="${i}">${label}</div>`;
+  }).join('');
+  el.monthTabs.querySelectorAll('.month-tab').forEach(tab=>tab.addEventListener('click',()=> setMonth(Number(tab.dataset.i))));
 }
 
 function setMonth(i){
   state.current=i; renderTabs();
   const m=state.months[i];
-  el.monthTitle.textContent=m.name;
-  el.monthSub.textContent='';
-  renderList(m);
-}
-
-function renderList(m){
-  const qitems=[];
+  // Section header
+  let html = `<div class="section-header"><h2>${m.name}</h2><div class="subtitle"></div></div>`;
+  // Categories and questions
   m.cats.forEach(cat=>{
-    if(cat.questions.length){
-      qitems.push(`<div class="pill" style="margin-top:14px">${emojiForCat(cat.name)} ${cat.name}</div>`);
-      cat.questions.forEach((q,k)=>{
-        qitems.push(`<div class="qitem" data-month="${m.name}" data-title="${q.title}">
-          <div class="qnum">${q.idx||k+1}</div>
-          <div class="qtext">${q.title}</div>
-        </div>`)
-      })
-    }
-  })
-  el.list.innerHTML=qitems.join('') || '<div class="note">本月暂无解析内容。</div>';
-  el.list.querySelectorAll('.qitem').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
-}
-
-function emojiForCat(name){
-  if(name.includes('喂养')) return '🍼';
-  if(name.includes('睡眠')) return '🌙';
-  if(name.includes('日常')) return '🧼';
-  if(name.includes('生长')) return '📈';
-  if(name.includes('疾病')||name.includes('安全')) return '🛟';
-  return '📌';
+    if(!cat.questions.length) return;
+    html += `<div class="category"><div class="category-title">${cat.name}</div><div class="question-list">`;
+    cat.questions.forEach((q,k)=>{
+      html += `<div class="question-item" data-month="${m.name}" data-title="${q.title}">
+        <div class="question-number">${q.idx||k+1}</div>
+        <div class="question-text">${q.title}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  el.content.innerHTML = html || '<div style="padding:20px;color:#6c757d">本月暂无解析内容。</div>';
+  el.content.querySelectorAll('.question-item').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
 }
 
 function openModal(title, month){
   const it = state.flatIndex.find(x=>x.title===title && x.month===month) || state.flatIndex.find(x=>x.title===title);
   if(!it){
-    el.mTitle.textContent=title;
-    el.mMeta.textContent=month||'';
-    el.mBody.innerHTML='<div class="note">未能定位到该问题的正文，请检查源文档格式。</div>';
+    el.modalTitle.textContent = title;
+    el.questionTag.textContent = month||'';
+    el.modalBody.innerHTML = '<div style="color:#c00">未找到该问题正文。</div>';
   }else{
-    el.mTitle.textContent=it.title;
-    el.mMeta.textContent = `${month} · ${it.cat}`;
-    // 直接渲染全文 markdown（包含：现象解析/专家指南/实操方法/给妈妈&爸爸的话 等）
-    el.mBody.innerHTML = marked.parse(it.content);
+    el.modalTitle.textContent = it.title;
+    el.questionTag.textContent = `${it.month} · ${it.cat}`;
+    // Promote bold section names to h4 for styling
+    let md = it.content;
+    md = md.replace(/\n\s*\*\*((?:现象|现象解析|原因|原因分析|专家建议|专家指南|解决方案|实操方法|实操|给妈妈(?:&|和)爸爸的话|给妈妈的话|给爸爸妈妈的话))\*\*\s*\n/g,'\n#### $1\n');
+    el.modalBody.innerHTML = marked.parse(md);
+    // Wrap "给妈妈/爸爸的话" as .mom-message
+    el.modalBody.querySelectorAll('h4').forEach(h=>{
+      const t = h.textContent.trim();
+      if(/给妈妈|给爸爸/.test(t)){
+        const wrap=document.createElement('div'); wrap.className='mom-message';
+        const head=document.createElement('h4'); head.textContent='💝 '+t; wrap.appendChild(head);
+        let n=h.nextSibling;
+        while(n && n.tagName!=='H4'){ const nx=n.nextSibling; wrap.appendChild(n); n=nx; }
+        h.replaceWith(wrap);
+      } else {
+        if(/现象|原因/.test(t)) h.innerHTML='🔍 '+t;
+        if(/专家/.test(t)) h.innerHTML='👨‍⚕️ '+t;
+        if(/解决|实操/.test(t)) h.innerHTML='✅ '+t;
+      }
+    });
   }
-  el.modal.classList.add('open');
+  el.modal.classList.add('active'); document.body.style.overflow='hidden';
 }
 
-el.close.addEventListener('click',()=> el.modal.classList.remove('open'));
-el.modal.addEventListener('click',e=>{ if(e.target===el.modal) el.modal.classList.remove('open') })
+function closeModal(){ el.modal.classList.remove('active'); document.body.style.overflow='auto'; }
+el.closeBtn.addEventListener('click', closeModal);
+el.modal.addEventListener('click', e=>{ if(e.target===el.modal) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
-// 搜索
+// Search (global)
 el.search.addEventListener('input',()=>{
-  const q = el.search.value.trim();
+  const q = el.search.value.trim().toLowerCase();
   if(!q){ setMonth(state.current); return; }
-  const hits = state.flatIndex.filter(x=> (x.title+x.cat+x.month).toLowerCase().includes(q.toLowerCase()));
-  el.monthTitle.textContent = `搜索结果（${hits.length}）`;
-  el.monthSub.textContent = '点击条目查看详细解答';
-  el.list.innerHTML = hits.map((x,i)=>`<div class="qitem" data-title="${x.title}" data-month="${x.month}">
-      <div class="qnum">${i+1}</div>
-      <div class="qtext">${x.title}<div style="color:#64748b;font-weight:600;font-size:12px;margin-top:4px">${x.month} · ${x.cat}</div></div>
-    </div>`).join('');
-  el.list.querySelectorAll('.qitem').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
+  const hits = state.flatIndex.filter(x=> (x.title+x.cat+x.month).toLowerCase().includes(q));
+  let html = `<div class="section-header"><h2>搜索结果（${hits.length}）</h2><div class="subtitle">点击条目查看详细解答</div></div>`;
+  html += `<div class="category"><div class="question-list">`;
+  hits.forEach((x,i)=>{
+    html += `<div class="question-item" data-title="${x.title}" data-month="${x.month}">
+      <div class="question-number">${i+1}</div>
+      <div class="question-text">${x.title}<div style="color:#6c757d;font-size:12px;margin-top:4px">${x.month} · ${x.cat}</div></div>
+    </div>`;
+  });
+  html += `</div></div>`;
+  el.content.innerHTML = html;
+  el.content.querySelectorAll('.question-item').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
 });
-
-el.clear.addEventListener('click',()=>{ el.search.value=''; setMonth(state.current); el.search.focus(); })
 
 boot();
 </script>
