@@ -1,113 +1,425 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>0-12个月婴儿 TOP30 问题速查手册</title>
-  <meta name="description" content="专业育儿知识｜快速查找｜贴心解答" />
-  <!-- Minimal CSS (no build tools). Tailwind-like vibes with custom vars. -->
-  <style>
-    :root{
-      --bg:#0f1223; --card:#ffffff; --muted:#6b7280; --brand1:#ff4d8d; --brand2:#7c5cff;
-      --fade:linear-gradient(135deg,var(--brand1),var(--brand2));
-      --radius:18px; --shadow:0 10px 30px rgba(2,6,23,.15);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,'PingFang SC','Noto Sans SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;}
-    body{background:linear-gradient(180deg,#f7f7fc,#fff 20%);}    
-    header{background:var(--bg);background-image:radial-gradient(1000px 300px at 10% -20%,rgba(255,255,255,.2),transparent), radial-gradient(1000px 300px at 90% -20%,rgba(255,255,255,.18),transparent);color:#fff;padding:32px 16px 20px;border-radius:0 0 28px 28px;}
-    .container{max-width:1160px;margin:0 auto;padding:0 16px}
-    .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;}
-    .subtitle{opacity:.9;margin-top:6px;font-size:14px}
-    .searchbar{margin:18px 0;display:flex;gap:10px}
-    .searchbar input{flex:1;padding:14px 14px 14px 40px;border-radius:999px;border:none;outline:none;box-shadow:var(--shadow);}
-    .searchwrap{position:relative;flex:1.8}
-    .searchwrap .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55}
-    .tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
-    .tab{background:#fff;color:#111;font-weight:600;border-radius:999px;padding:8px 14px;border:1px solid #e5e7eb;cursor:pointer}
-    .tab.active{background:linear-gradient(90deg,#ffe3f0,#ece9ff);border-color:#e9d5ff}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0-12个月婴儿TOP30问题速查手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    main{margin-top:16px}
-    .section-title{font-size:22px;font-weight:800;margin:18px 0 4px}
-    .section-sub{color:var(--muted);font-size:13px;margin-bottom:12px}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-    .pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #f1f5f9;border-radius:999px;padding:8px 12px;font-weight:700;box-shadow:0 2px 10px rgba(2,6,23,.04)}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
 
-    .list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-    .qitem{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid #eef2f7;border-radius:14px;padding:14px 14px;cursor:pointer;box-shadow:0 2px 12px rgba(2,6,23,.04)}
-    .qnum{height:28px;width:28px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe4ef,#efe9ff);border-radius:50%;font-weight:800;color:#7c5cff}
-    .qtext{font-weight:700}
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
 
-    /* Modal */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,18,35,.55);padding:20px;z-index:50}
-    .modal.open{display:flex}
-    .dialog{max-width:900px;width:100%;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(2,6,23,.25);overflow:hidden}
-    .dialog header{background:linear-gradient(90deg,rgba(255,77,141,.12),rgba(124,92,255,.12));color:#111;padding:16px;border-radius:18px 18px 0 0}
-    .dialog h3{margin:0;font-size:18px}
-    .dialog .meta{color:#6b7280;font-size:12px;margin-top:6px}
-    .dialog .body{padding:18px;max-height:68vh;overflow:auto}
-    .close{position:absolute;right:18px;top:18px;background:#fff;border:none;border-radius:50%;width:34px;height:34px;box-shadow:var(--shadow);cursor:pointer}
-    .actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7}
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
 
-    /* Markdown basics */
-    .md h4,.md h5{margin:14px 0 6px}
-    .md p{line-height:1.65;margin:10px 0}
-    .md ul{margin:6px 0 12px 18px}
-    .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;margin-top:12px}
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
 
-    footer{margin:36px 0;color:#94a3b8;text-align:center;font-size:12px}
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        .month-tabs {
+            display: flex;
+            overflow-x: auto;
+            background: #f8f9fa;
+            padding: 10px;
+            gap: 8px;
+            border-bottom: 2px solid #e9ecef;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .month-tabs::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .month-tabs::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .month-tab {
+            flex-shrink: 0;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .month-tab:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .month-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .month-section {
+            display: none;
+        }
+
+        .month-section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            color: #764ba2;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .section-header .subtitle {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .category {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .question-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .question-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .question-item:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .question-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .question-text {
+            flex: 1;
+            color: #212529;
+            font-size: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .modal-header .question-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section h4 {
+            color: #764ba2;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-section h4::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .detail-section p, .detail-section ul {
+            color: #495057;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .detail-section li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .detail-section li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .mom-message {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #f5576c;
+        }
+
+        .mom-message h4 {
+            color: #c7254e;
+            margin-bottom: 10px;
+        }
+
+        .mom-message h4::before {
+            background: #f5576c;
+        }
+
+        .mom-message p {
+            color: #6d3a2e;
+        }
+
+        .search-box {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .month-tab {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .modal-content {
+                margin: 10px;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
     <div class="container">
-      <div class="title">👶 <span>0-12个月婴儿 TOP30 问题速查手册</span></div>
-      
-
-      <div class="searchbar">
-        <div class="searchwrap">
-          <span class="icon">🔎</span>
-          <input id="search" placeholder="搜索问题关键词…（如：黄疸 / 吐奶 / 枕头 / 俯趴）" />
+        <div class="header">
+            <h1>👶 0-12个月婴儿TOP30问题速查手册</h1>
+            <p>专业育儿知识 | 快速查找 | 贴心解答</p>
         </div>
-        <button id="clear" class="tab" title="清空搜索">清空</button>
-      </div>
 
-      <div id="tabs" class="tabs"></div>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="🔍 搜索问题关键词...">
+        </div>
+
+        <div class="month-tabs">
+            <div class="month-tab active" data-month="0">新生儿期</div>
+            <div class="month-tab" data-month="1">1个月</div>
+            <div class="month-tab" data-month="2">2个月</div>
+            <div class="month-tab" data-month="3">3个月</div>
+            <div class="month-tab" data-month="4">4个月</div>
+            <div class="month-tab" data-month="5">5个月</div>
+            <div class="month-tab" data-month="6">6个月</div>
+            <div class="month-tab" data-month="7">7个月</div>
+            <div class="month-tab" data-month="8">8个月</div>
+            <div class="month-tab" data-month="9">9个月</div>
+            <div class="month-tab" data-month="10">10个月</div>
+            <div class="month-tab" data-month="11">11个月</div>
+            <div class="month-tab" data-month="12">12个月</div>
+        </div>
+
+        <div class="content" id="content"></div>
     </div>
-  </header>
 
-  <main class="container">
-    <div id="monthTitle" class="section-title">新生儿期（0-1个月）</div>
-    <div id="monthSub" class="section-sub">适应新世界的第一步</div>
-
-        <div id="list" class="list"></div>
-
-    <footer>Made for 🍼 quick-look use • 全站仅前端文件，放到 GitHub Pages 即可上线</footer>
-  </main>
-
-  <div id=\"modal\" class=\"modal\" role=\"dialog\" aria-modal=\"true\">
-    <div class=\"dialog\">
-      <button class=\"close\" id=\"close\">✕</button>
-      <header>
-        <h3 id=\"mTitle\">标题</h3>
-        <div class=\"meta\" id=\"mMeta\"></div>
-      </header>
-      <div class=\"body md\" id=\"mBody\"></div>
-      <div class=\"actions\" style=\"display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7\">
-        <button id=\"btnFav\" class=\"tab\">⭐ 收藏</button>
-        <button id=\"btnShare\" class=\"tab\">🔗 分享</button>
-      </div>
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <div id="modalHeader"></div>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
     </div>
-  </div>
 
-<script>
-/**
- * MVP 数据解析器
- * 读取 ./all_content.md.txt（你仓库里的同名文件），将内容按“月份块 → 分类 → 问题”解析
- * 解析容错：只要保留了文档里的 # 「…月龄」 / ### 【分类】 / #### **问题 x/xx: 标题** 结构，就能渲染
- */
-const state={raw:'', months:[], current:0, flatIndex:[]};
+    <script>
+        const state={raw:'', months:[], current:0, flatIndex:[]};
 const el={tabs:document.getElementById('tabs'), list:document.getElementById('list'),
           monthTitle:document.getElementById('monthTitle'), monthSub:document.getElementById('monthSub'),
           search:document.getElementById('search'), clear:document.getElementById('clear'),
@@ -165,80 +477,214 @@ function parse(md){
   });
 }
 
-function renderTabs(){
-  el.tabs.innerHTML = state.months.map((m,i)=>`<button class="tab ${i===state.current?'active':''}" data-i="${i}">${m.name.replace('月龄','')}</button>`).join('');
-  el.tabs.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=> setMonth(Number(btn.dataset.i))));
-}
+        let currentMonth = 0;
 
-function setMonth(i){
-  state.current=i; renderTabs();
-  const m=state.months[i];
-  el.monthTitle.textContent=m.name;
-  el.monthSub.textContent='';
-  renderList(m);
-}
+        function renderContent() {
+            const contentDiv = document.getElementById('content');
+            const data = qaData[currentMonth];
+            
+            let html = `
+                <div class="section-header">
+                    <h2>${data.title}</h2>
+                    <div class="subtitle">${data.subtitle}</div>
+                </div>
+            `;
 
-function renderList(m){
-  const qitems=[];
-  m.cats.forEach(cat=>{
-    if(cat.questions.length){
-      qitems.push(`<div class="pill" style="margin-top:14px">${emojiForCat(cat.name)} ${cat.name}</div>`);
-      cat.questions.forEach((q,k)=>{
-        qitems.push(`<div class="qitem" data-month="${m.name}" data-title="${q.title}">
-          <div class="qnum">${q.idx||k+1}</div>
-          <div class="qtext">${q.title}</div>
-        </div>`)
-      })
-    }
-  })
-  el.list.innerHTML=qitems.join('') || '<div class="note">本月暂无解析内容。</div>';
-  el.list.querySelectorAll('.qitem').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
-}
+            data.categories.forEach(category => {
+                html += `<div class="category">`;
+                html += `<div class="category-title">${category.name}</div>`;
+                html += `<div class="question-list">`;
+                
+                category.questions.forEach((q, index) => {
+                    const globalIndex = index + 1;
+                    html += `
+                        <div class="question-item" onclick="showDetail(${currentMonth}, '${category.name}', ${index})">
+                            <div class="question-number">${globalIndex}</div>
+                            <div class="question-text">${q.q}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            });
 
-function emojiForCat(name){
-  if(name.includes('喂养')) return '🍼';
-  if(name.includes('睡眠')) return '🌙';
-  if(name.includes('日常')) return '🧼';
-  if(name.includes('生长')) return '📈';
-  if(name.includes('疾病')||name.includes('安全')) return '🛟';
-  return '📌';
-}
+            contentDiv.innerHTML = html;
+        }
 
-function openModal(title, month){
-  // 在 flatIndex 里找问题
-  const it = state.flatIndex.find(x=>x.title===title && x.month===month) || state.flatIndex.find(x=>x.title===title);
-  if(!it){
-    el.mTitle.textContent=title;
-    el.mMeta.textContent=month||'';
-    el.mBody.innerHTML='<div class="note">未能定位到该问题的正文，请检查源文档格式。</div>';
-  }else{
-    el.mTitle.textContent=it.title;
-    el.mMeta.textContent = `${month} · ${it.cat}`;
-    el.mBody.innerHTML = marked.parse(it.content.replace(/\*\*(.*?)\*\*/g,'**$1**'));
-  }
-  el.modal.classList.add('open');
-}
+        function showDetail(month, categoryName, questionIndex) {
+            const data = qaData[month];
+            const category = data.categories.find(c => c.name === categoryName);
+            const question = category.questions[questionIndex];
 
-el.close.addEventListener('click',()=> el.modal.classList.remove('open'));
-el.modal.addEventListener('click',e=>{ if(e.target===el.modal) el.modal.classList.remove('open') })
+            const modalHeader = document.getElementById('modalHeader');
+            const modalBody = document.getElementById('modalBody');
 
-// 搜索：跨所有月份标题/内容（仅索引标题，点击后打开详情）
-el.search.addEventListener('input',()=>{
-  const q = el.search.value.trim();
-  if(!q){ setMonth(state.current); return; }
-  const hits = state.flatIndex.filter(x=> (x.title+x.cat+x.month).toLowerCase().includes(q.toLowerCase()));
-  el.monthTitle.textContent = `搜索结果（${hits.length}）`;
-  el.monthSub.textContent = '点击条目查看详细解答';
-  el.list.innerHTML = hits.map((x,i)=>`<div class="qitem" data-title="${x.title}" data-month="${x.month}">
-      <div class="qnum">${i+1}</div>
-      <div class="qtext">${x.title}<div style="color:#64748b;font-weight:600;font-size:12px;margin-top:4px">${x.month} · ${x.cat}</div></div>
-    </div>`).join('');
-  el.list.querySelectorAll('.qitem').forEach(div=>div.addEventListener('click',()=> openModal(div.dataset.title, div.dataset.month)));
-});
+            modalHeader.innerHTML = `
+                <h3>${question.q}</h3>
+                <div class="question-tag">${data.title} · ${categoryName}</div>
+            `;
 
-el.clear.addEventListener('click',()=>{ el.search.value=''; setMonth(state.current); el.search.focus(); })
+            modalBody.innerHTML = `
+                <div class="detail-section">
+                    <h4>🔍 原因分析</h4>
+                    <p>${question.reason}</p>
+                </div>
+                <div class="detail-section">
+                    <h4>👨‍⚕️ 专家建议</h4>
+                    <p>${question.expert}</p>
+                </div>
+                <div class="detail-section">
+                    <h4>✅ 解决方案</h4>
+                    <p>${question.solution}</p>
+                </div>
+                <div class="detail-section mom-message">
+                    <h4>💝 给妈妈的话</h4>
+                    <p>${question.momMessage}</p>
+                </div>
+            `;
 
-boot();
-</script>
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // 月龄标签切换
+        document.querySelectorAll('.month-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentMonth = parseInt(this.dataset.month);
+                renderContent();
+                
+                // 平滑滚动到顶部
+                document.querySelector('.content').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // 搜索功能
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.question-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // 如果搜索框为空，显示所有问题
+            if (searchTerm === '') {
+                document.querySelectorAll('.question-item').forEach(item => {
+                    item.style.display = 'flex';
+                });
+            }
+        });
+
+        // 初始化
+        renderContent();
+
+        // 为了演示完整功能，添加更多月龄的示例数据
+        for (let month = 2; month <= 12; month++) {
+            qaData[month] = {
+                title: `${month}个月宝宝`,
+                subtitle: `第${month}个月的成长变化`,
+                categories: [
+                    {
+                        name: "🍼 喂养发育",
+                        questions: [
+                            {
+                                q: `${month}个月宝宝的喂养要点是什么？`,
+                                reason: `${month}个月宝宝的营养需求和消化能力都在发展变化。`,
+                                expert: "根据宝宝月龄调整喂养方式，关注生长曲线。",
+                                solution: `针对${month}个月宝宝的具体喂养建议：观察生长发育、适时调整奶量、注意辅食添加时机。`,
+                                momMessage: `${month}个月了，你和宝宝已经有了默契。每个阶段都有新挑战，但你已经越来越有经验了。相信自己，你是最了解宝宝的人！`
+                            },
+                            {
+                                q: `${month}个月宝宝体重增长缓慢怎么办？`,
+                                reason: "生长速度放缓是正常的，不像前几个月增长那么快。",
+                                expert: "关注生长曲线的趋势比单次体重更重要。",
+                                solution: "定期体检监测生长曲线；确保喂养充足；排除疾病因素；不要过度焦虑。",
+                                momMessage: "看到体重秤上的数字没怎么变，你心里着急。但宝宝的生长不是匀速的，有快有慢。只要曲线在正常范围内，就说明宝宝健康成长。不要和别的宝宝比，每个孩子都是独特的。"
+                            },
+                            {
+                                q: `${month}个月宝宝需要喝水吗？`,
+                                reason: "6个月前纯奶喂养通常不需要额外喝水，6个月后可以开始。",
+                                expert: "母乳和配方奶中90%都是水分，足够满足需求。",
+                                solution: "6个月前：纯母乳或配方奶，不需要额外喝水。6个月后：可以用水杯少量喝水，每天30-60ml。发热、腹泻时需要额外补水。",
+                                momMessage: "天气热了，你担心宝宝渴，想给TA喂水。但新生儿的肾脏还很娇嫩，过多喝水反而有害。母乳就是最好的'水'，相信它能满足宝宝的需求。"
+                            }
+                        ]
+                    },
+                    {
+                        name: "🧠 大动作发育",
+                        questions: [
+                            {
+                                q: `${month}个月宝宝应该会什么大动作？`,
+                                reason: `${month}个月是重要的发育阶段，大动作能力快速发展。`,
+                                expert: "每个宝宝发育进度不同，参考范围即可。",
+                                solution: `${month}个月典型能力：根据月龄会有抬头、翻身、坐、爬、站等不同里程碑。多做亲子互动促进发育。`,
+                                momMessage: `看到育儿书上的里程碑，你可能焦虑'我家宝宝怎么还不会'。记住：这些都是参考，不是标准答案。宝宝会在准备好的时候展现能力，给TA时间，也给自己放松的空间。`
+                            }
+                        ]
+                    },
+                    {
+                        name: "😴 作息睡眠",
+                        questions: [
+                            {
+                                q: `${month}个月宝宝的作息如何安排？`,
+                                reason: "随着月龄增长，宝宝的睡眠模式逐渐规律。",
+                                expert: "建立规律作息有助于宝宝健康发育。",
+                                solution: "观察宝宝的生物钟；固定睡眠时间；白天小睡不要太晚；傍晚避免过度兴奋；建立睡前仪式感。",
+                                momMessage: "建立作息的过程可能让你很挫败，今天好不容易建立的规律，明天又乱了。这很正常！宝宝在不断变化，作息也需要不断调整。保持耐心和弹性，总会越来越好的。"
+                            }
+                        ]
+                    },
+                    {
+                        name: "🎯 认知互动",
+                        questions: [
+                            {
+                                q: `${month}个月宝宝认知能力发展到什么程度？`,
+                                reason: "大脑快速发育，认知、语言、社交能力都在进步。",
+                                expert: "多互动、多交流是促进认知发展的最好方式。",
+                                solution: "每天和宝宝说话、读书；提供适龄玩具；鼓励探索环境；回应宝宝的声音和动作；保护安全的前提下不过度限制。",
+                                momMessage: "你可能觉得和宝宝说话很傻，TA又听不懂。但你的每一句话都在塑造TA的大脑！你的声音、表情、互动，都是宝宝学习的素材。不要小看这些日常时刻，它们都很重要。"
+                            }
+                        ]
+                    },
+                    {
+                        name: "🏥 常见问题",
+                        questions: [
+                            {
+                                q: `${month}个月宝宝最常见的健康问题有哪些？`,
+                                reason: "不同月龄宝宝容易出现不同的健康问题。",
+                                expert: "了解常见问题，及时识别和应对。",
+                                solution: "定期体检；注意观察宝宝状态；学习基本护理知识；建立家庭小药箱；知道什么情况需要就医。",
+                                momMessage: "宝宝一点小状况你就紧张得不行，半夜查百度越查越害怕。当妈后好像有了'疑病症'。这种担心源于爱，但也不要过度焦虑。多数时候宝宝比你想象的更强壮，实在不放心就去看医生。"
+                            }
+                        ]
+                    }
+                ]
+            };
+        }
+    </script>
 </body>
 </html>
