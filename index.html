@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>0-12个月婴儿 TOP30 问题速查手册</title>
   <meta name="description" content="专业育儿知识｜快速查找｜贴心解答" />
-  <!-- Minimal CSS (no build tools). Tailwind-like vibes with custom vars. -->
   <style>
     :root{
-      --bg:#0f1223; --card:#ffffff; --muted:#6b7280; --brand1:#ff4d8d; --brand2:#7c5cff;
-      --fade:linear-gradient(135deg,var(--brand1),var(--brand2));
+      --bg:#0f1223; --card:#ffffff; --muted:#6b7280;
       --radius:18px; --shadow:0 10px 30px rgba(2,6,23,.15);
     }
     *{box-sizing:border-box}
@@ -29,7 +27,7 @@
 
     main{margin-top:16px}
     .section-title{font-size:22px;font-weight:800;margin:18px 0 4px}
-    .section-sub{color:var(--muted);font-size:13px;margin-bottom:12px}
+    .section-sub{color:#6b7280;font-size:13px;margin-bottom:12px}
 
     .pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #f1f5f9;border-radius:999px;padding:8px 12px;font-weight:700;box-shadow:0 2px 10px rgba(2,6,23,.04)}
 
@@ -42,24 +40,26 @@
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,18,35,.55);padding:20px;z-index:50}
     .modal.open{display:flex}
     .dialog{max-width:900px;width:100%;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(2,6,23,.25);overflow:hidden}
-    /* 顶部深紫渐变、白字、更大内边距 */
+
+    /* 顶部深紫渐变、白字、更大内边距 —— 只影响浮窗 */
     .dialog header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:22px;border-radius:18px 18px 0 0;position:relative}
     .dialog h3{margin:0;font-size:20px;font-weight:800}
-    /* 徽章容器 */
     .dialog .meta{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+
     /* 大号关闭按钮（右上角白半透明） */
     .close{position:absolute;right:16px;top:16px;background:rgba(255,255,255,.25);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:20px;cursor:pointer}
+
     .dialog .body{padding:18px;max-height:68vh;overflow:auto}
     .actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 18px;border-top:1px solid #eef2f7}
 
-    /* Markdown basics（正文更舒展 + emoji 标题） */
+    /* Markdown basics（正文更舒展 + emoji 标题，仅在浮窗内生效） */
     .md h4{margin:18px 0 10px;font-size:16px;color:#4338ca;display:flex;align-items:center;gap:10px}
     .md p{line-height:1.85;margin:8px 0 12px;color:#0f172a}
     .md ul{margin:8px 0 14px 20px}
     .md li{margin-bottom:6px}
     .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;margin-top:12px}
 
-    /* 两枚徽章 */
+    /* 两枚徽章（📅 / 🏷） */
     .chip{background:rgba(255,255,255,.22);border-radius:12px;padding:6px 10px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
 
     /* 💝 给妈妈&爸爸的话：暖橙提示卡 */
@@ -74,6 +74,7 @@
   <header>
     <div class="container">
       <div class="title">👶 <span>0-12个月婴儿 TOP30 问题速查手册</span></div>
+
       <div class="searchbar">
         <div class="searchwrap">
           <span class="icon">🔎</span>
@@ -81,6 +82,7 @@
         </div>
         <button id="clear" class="tab" title="清空搜索">清空</button>
       </div>
+
       <div id="tabs" class="tabs"></div>
     </div>
   </header>
@@ -114,9 +116,7 @@
   </div>
 
 <script>
-/**
- * MVP 数据解析器（保持你原来的逻辑，不动）
- */
+/** MVP 数据解析与交互（保持你原逻辑不动） */
 const state={raw:'', months:[], current:0, flatIndex:[]};
 const el={tabs:document.getElementById('tabs'), list:document.getElementById('list'),
           monthTitle:document.getElementById('monthTitle'), monthSub:document.getElementById('monthSub'),
@@ -139,7 +139,7 @@ async function boot(){
 }
 
 function parse(md){
-  // 拆出每月块：以 # 「 开头的标题分割（保留你现有写法）
+  // 拆出每月块（保留你的写法）
   const monthBlocks=md.split(/\n#\s*「/).filter(Boolean).map((blk,i)=> (i? '「'+blk: blk));
   state.months = monthBlocks.map(block=>{
     const lines = block.split(/\n/);
@@ -153,8 +153,11 @@ function parse(md){
       const cname=catSplit[i];
       const cbody=catSplit[i+1]||'';
       const qs = [];
-      // 问题：以 #### **问题 x/xx: 标题** 起始，到下一个 #### 或 ### 或末尾
-      const parts=cbody.split(/\n####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
+
+      // === 仅此处做容错：首题在块开头 & 中文冒号 ===
+      const normalized = cbody.replace(/：/g, ':').replace(/\r/g,'');
+      const parts = normalized.split(/(?:^|\n)####\s*\*\*问题\s*([0-9]+)\/[0-9]+:\s*([^*\n]+)\*\*\s*/).slice(1);
+
       for(let j=0;j<parts.length;j+=3){
         const idx=parts[j];
         const qtitle=parts[j+1];
@@ -223,14 +226,14 @@ function openModal(title, month){
     el.chipMonth.textContent='📅 ' + it.month;
     el.chipCat.textContent='🏷 ' + it.cat;
 
-    // 1) 将文档中“**小节名**”升级为 h4（便于样式与 emoji）
+    // 1) 将“**小节名**”升级为 h4，便于样式与 emoji
     let md = it.content;
     md = md.replace(/\n\s*\*\*((?:现象|现象解析|原因|原因分析|专家建议|专家指南|解决方案|实操方法|实操|给妈妈(?:&|和)爸爸的话|给妈妈的话|给爸爸妈妈的话))\*\*\s*\n/g,'\n#### $1\n');
 
     // 2) 渲染
     el.mBody.innerHTML = marked.parse(md);
 
-    // 3) 标题加 emoji；“给妈妈&爸爸的话”包成暖橙卡片
+    // 3) 给 h4 加 emoji；“给妈妈&爸爸的话”包成暖橙提示卡
     el.mBody.querySelectorAll('h4').forEach(h=>{
       const t=h.textContent.trim();
       if(/现象|原因/.test(t)) h.innerHTML='🔍 '+t;
@@ -247,11 +250,10 @@ function openModal(title, month){
   }
   el.modal.classList.add('open');
 }
-
 el.close.addEventListener('click',()=> el.modal.classList.remove('open'));
 el.modal.addEventListener('click',e=>{ if(e.target===el.modal) el.modal.classList.remove('open') })
 
-// 搜索：跨所有月份标题/内容（仅索引标题，点击后打开详情）
+// 搜索（不动）
 el.search.addEventListener('input',()=>{
   const q = el.search.value.trim();
   if(!q){ setMonth(state.current); return; }
