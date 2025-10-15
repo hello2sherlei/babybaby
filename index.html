@@ -38,23 +38,19 @@
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     .modal-content{background:#fff;border-radius:20px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;animation:slideUp .3s}
     @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-    .modal-header{background: linear-gradient(135deg,#4c1d95 0%,#7c3aed 100%);color:#fff;padding:25px;position:sticky;top:0;z-index:10}
+    .modal-header{background: linear-gradient(135deg,#4c1d95 0%,#7c3aed 100%);color: #fff;padding:25px;position:sticky;top:0;z-index:10}
     .modal-header h3{font-size: 24px;margin-bottom:8pxfont-weight:800;letter-spacing:.2px;text-shadow:0 1px 2px rgba(0,0,0,.25);}
     .question-tag{background:rgba(255,255,255,.18);padding:4px 12px;border-radius:14px;font-size:12px;display:inline-block;border:1px solid rgba(255,255,255,.3);backdrop-filter:saturate(140%) blur(2px)}
     .close-btn{position:absolute;top:20px;right:20px;width:36px;height:36px;background:rgba(255,255,255,.2);border:none;border-radius:50%;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s}
     .close-btn:hover{background:rgba(255,255,255,.3);transform:rotate(90deg)}
     .modal-body{padding:30px}
     /* Content styling inside modal */
-    .modal-body .md h4{color:#764ba2;font-size: 17px;margin: 20px 0 12px;display:flex;align-items:center;gap:8px}
-    .modal-body .md h4::before{content:'';width:4px;height:16px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:2px}
+    .modal-body .md h4{color:#4f46e5;font-size:17px;margin:20px 0 10px;display:flex;align-items:center;gap:8px;position:relative;padding-left:14px}.modal-body .md h4::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:18px;border-radius:2px;background:linear-gradient(180deg,#6366f1 0%,#8b5cf6 100%)}
     .modal-body .md p,.modal-body .md ul{color:#495057;font-size:15px;line-height:1.9;margin:10px 0 14px}
     .modal-body .md ul{list-style:none;padding-left:0}
     .modal-body .md li{padding-left:20px;position:relative;margin-bottom:8px}
     .modal-body .md li::before{content:'•';position:absolute;left:0;color:#667eea;font-weight:bold}
-    .mom-message{background:linear-gradient(135deg,#ffe0c7 0%,#ffc7a5 100%);padding:20px 22px;border-radius:14px;border-left:0;box-shadow:0 6px 18px rgba(255, 168, 125, .28);margin-top:14px}
-    .mom-message h4{color:#9c4221;margin-bottom:10px;font-weight:700}
-    .mom-message h4::before{background:#f5576c}
-    .mom-message p{color:#7c3f2b}
+    .mom-message{background:linear-gradient(135deg,#ffe5d2 0%,#ffc8ae 100%);border-radius:14px;box-shadow:0 10px 28px rgba(255,140,100,.28);padding:18px 20px;margin:16px 0;border:1px solid rgba(255,140,100,.35)}.mom-message h4{color:#9a3412;margin:0 0 8px 0;font-weight:700;padding-left:14px;position:relative;display:flex;align-items:center;gap:8px}.mom-message h4::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:18px;border-radius:2px;background:#fb923c}.mom-message p{color:#7c2d12;margin:8px 0}
 
     @media (max-width:768px){
       body{padding:10px}
@@ -192,30 +188,74 @@ function openModal(title, month){
     el.modalTitle.textContent = title;
     el.questionTag.textContent = month||'';
     el.modalBody.innerHTML = '<div style="color:#c00">未找到该问题正文。</div>';
-  }else{
-    el.modalTitle.textContent = it.title;
-    el.questionTag.textContent = `${it.month} · ${it.cat}`;
-    // Promote bold section names to h4 for styling
-    let md = it.content;
-    md = md.replace(/\n\s*\*\*((?:现象|现象解析|原因|原因分析|专家建议|专家指南|解决方案|实操方法|实操|给妈妈(?:&|和)爸爸的话|给妈妈的话|给爸爸妈妈的话))\*\*\s*\n/g,'\n#### $1\n');
-    el.modalBody.innerHTML = marked.parse(md);
-    // Wrap "给妈妈/爸爸的话" as .mom-message
-    el.modalBody.querySelectorAll('h4').forEach(h=>{
-      const t = h.textContent.trim();
-      if(/给妈妈|给爸爸/.test(t)){
-        const wrap=document.createElement('div'); wrap.className='mom-message';
-        const head=document.createElement('h4'); head.textContent='💝 '+t; wrap.appendChild(head);
-        let n=h.nextSibling;
-        while(n && n.tagName!=='H4'){ const nx=n.nextSibling; wrap.appendChild(n); n=nx; }
-        h.replaceWith(wrap);
-      } else {
-        if(/现象|原因/.test(t)) h.innerHTML='🔍 '+t;
-        if(/专家/.test(t)) h.innerHTML='👨‍⚕️ '+t;
-        if(/解决|实操/.test(t)) h.innerHTML='✅ '+t;
-      }
-    });
+    return;
   }
-  el.modal.classList.add('active'); document.body.style.overflow='hidden';
+  el.modalTitle.textContent = it.title;
+  el.questionTag.textContent = `${it.month} · ${it.cat}`;
+
+  // Parse markdown
+  let md = it.content;
+
+  // Promote bold markers like "**现象解析**：" to headers
+  const secNames = ["现象","现象解析","原因","原因分析","专家建议","专家指南","解决方案","实操方法","实操","给妈妈&爸爸的话","给妈妈 & 爸爸的话","给妈妈的话","给爸爸妈妈的话"];
+  secNames.forEach(name=>{
+    const re = new RegExp(`\\n\\s*\\*\\*${name.replace(/([.*+?^${}()|[\\]\\\\])/g,'\\\\$1')}\\*\\*\\s*[：:]*\\s*`,'g');
+    md = md.replace(re, `\n#### ${name}\n\n`);
+  });
+
+  el.modalBody.innerHTML = marked.parse(md);
+
+  const container = el.modalBody;
+
+  // Convert paragraphs starting with <strong>Section</strong>： into h4 + content
+  const mapEmoji = (t)=>{
+    if(/^(现象|现象解析|原因|原因分析)/.test(t)) return "🔍 "+t;
+    if(/^(专家建议|专家指南)/.test(t)) return "👨‍⚕️ "+t;
+    if(/^(解决方案|实操方法|实操)/.test(t)) return "✅ "+t;
+    if(/给妈妈|给爸爸/.test(t)) return "💝 "+t;
+    return t;
+  };
+
+  container.querySelectorAll('p').forEach(p=>{
+    const first = p.firstElementChild;
+    if(first && first.tagName==='STRONG'){
+      const raw = first.textContent.trim();
+      const norm = raw.replace(/\s+/g,'');
+      if(secNames.some(n=>n.replace(/\s+/g,'')===norm)){
+        const rest = p.innerHTML.replace(/^\s*<strong>.*?<\/strong>\s*[：:]?\s*/,'').trim();
+        const h4 = document.createElement('h4');
+        h4.textContent = mapEmoji(raw);
+        p.parentNode.insertBefore(h4, p);
+        if(rest){ p.innerHTML = rest; } else { p.remove(); }
+      }
+    }
+  });
+
+  // Ensure emojis on all h4s
+  container.querySelectorAll('h4').forEach(h=>{
+    const text = h.textContent.trim();
+    if(!/^[🔍👨‍⚕️✅💝]/.test(text)) h.textContent = mapEmoji(text);
+  });
+
+  // Wrap "给妈妈 & 爸爸的话" block into a warm card
+  container.querySelectorAll('h4').forEach(h=>{
+    const t = h.textContent.replace(/^[🔍👨‍⚕️✅💝]\s*/,'').trim();
+    if(/给妈妈|给爸爸/.test(t)){
+      const wrap = document.createElement('div');
+      wrap.className = 'mom-message';
+      wrap.appendChild(h.cloneNode(true));
+      let n = h.nextSibling;
+      while(n && !(n.nodeType===1 && n.tagName==='H4')){
+        const next = n.nextSibling;
+        wrap.appendChild(n);
+        n = next;
+      }
+      h.replaceWith(wrap);
+    }
+  });
+
+  el.modal.scrollTop = 0;
+  el.modal.classList.add('active');
 }
 
 function closeModal(){ el.modal.classList.remove('active'); document.body.style.overflow='auto'; }
