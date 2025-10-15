@@ -195,17 +195,17 @@ function openModal(title, month){
 
   let md = it.content;
 
-  // 1) 将 "**小节名**：" 归一化为 H4，以便后续处理（兼容不是列表起始的情况）
+  // 把 "**小节名**：" 或 "- **小节名**：" 归一化为四级标题，方便换行显示
   const secNames = ["现象","现象解析","原因","原因分析","专家建议","专家指南","解决方案","实操方法","实操","给妈妈&爸爸的话","给妈妈 & 爸爸的话","给妈妈的话","给爸爸妈妈的话"];
   secNames.forEach(name=>{
-    const re = new RegExp(`\\n\\s*[-*]?\\s*\\*\\*${name.replace(/([.*+?^${}()|[\\]\\\\])/g,'\\\\$1')}\\*\\*\\s*[：:]*\\s*`,'g');
-    md = md.replace(re, `\n#### ${name}\n\n`);
+    const n = name.replace(/([.*+?^${}()|[\]\\])/g,'\\$1');
+    md = md.replace(new RegExp(`\\n\\s*[-*]?\\s*\\*\\*${n}\\*\\*\\s*[：:]*\\s*`,'g'), `\n#### ${name}\n\n`);
   });
 
   el.modalBody.innerHTML = marked.parse(md);
   const container = el.modalBody;
 
-  const mapEmoji = (t)=>{
+  const addEmoji = (t)=>{
     if(/^(现象|现象解析|原因|原因分析)/.test(t)) return "🔍 "+t;
     if(/^(专家建议|专家指南)/.test(t)) return "👨‍⚕️ "+t;
     if(/^(解决方案|实操方法|实操)/.test(t)) return "✅ "+t;
@@ -213,70 +213,91 @@ function openModal(title, month){
     return t;
   };
 
-  // 2) 处理仍然是“列表项 + <strong>小节名</strong>：内容”的结构 —— 提升为块级小节
+  // 方案A：有些文档仍然是“列表项 + 加粗小节名”，把这样的 ul 分解为独立区块
   container.querySelectorAll('ul').forEach(ul=>{
     const lis = Array.from(ul.children);
-    const isSectionList = lis.every(li=>{
-      const p = li.querySelector('p, :scope>strong') || li.firstElementChild;
-      if(!p) return false;
-      const strong = p.querySelector('strong') || (p.tagName==='STRONG' ? p : null);
+    const hasSection = lis.some(li=>{
+      const first = li.querySelector('p, :scope>strong') || li.firstElementChild;
+      const strong = first && (first.querySelector && first.querySelector('strong')) ? first.querySelector('strong') : (first && first.tagName==='STRONG' ? first : null);
       if(!strong) return false;
-      const label = strong.textContent.trim().replace(/\s+/g,'');
-      return secNames.some(n=>n.replace(/\s+/g,'')===label);
+      const lab = strong.textContent.trim().replace(/\s+/g,'');
+      return secNames.some(n=>n.replace(/\s+/g,'')===lab);
     });
-    if(!isSectionList) return;
+    if(!hasSection) return;
 
     const frag = document.createDocumentFragment();
     lis.forEach(li=>{
-      // 找到 <strong>标题</strong>：正文
-      let firstP = li.querySelector('p') || li;
-      let strong = firstP.querySelector('strong') || (firstP.tagName==='STRONG' ? firstP : null);
-      let raw = strong ? strong.textContent.trim() : '';
-      let restHTML = firstP.innerHTML.replace(/^\s*<strong>.*?<\/strong>\s*[：:]?\s*/,'').trim();
-
-      const h4 = document.createElement('h4');
-      h4.textContent = mapEmoji(raw || '小节');
-
-      // 给妈妈&爸爸 -> 包裹卡片
-      let wrap = null;
-      if(/给妈妈|给爸爸/.test(raw)){
-        wrap = document.createElement('div');
-        wrap.className = 'mom-message';
-        wrap.appendChild(h4);
-      }else{
-        frag.appendChild(h4);
+      const first = li.querySelector('p, :scope>strong') || li.firstElementChild;
+      const strong = first && (first.querySelector && first.querySelector('strong')) ? first.querySelector('strong') : (first && first.tagName==='STRONG' ? first : null);
+      if(strong){
+        const raw = strong.textContent.trim();
+        const lab = raw.replace(/\s+/g,'');
+        if(secNames.some(n=>n.replace(/\s+/g,'')===lab)){
+          const h4 = document.createElement('h4');
+          h4.textContent = addEmoji(raw);
+          let wrap = null;
+          if(/给妈妈|给爸爸/.test(raw)){
+            wrap = document.createElement('div'); wrap.className='mom-message';
+            wrap.appendChild(h4);
+          }else{
+            frag.appendChild(h4);
+          }
+          // 主体文本（去掉加粗标签与冒号）
+          const target = first;
+          const restHTML = target.innerHTML.replace(/^\s*<strong>.*?<\/strong>\s*[：:]?\s*/,'').trim();
+          if(restHTML){
+            const p = document.createElement('p'); p.innerHTML = restHTML;
+            (wrap||frag).appendChild(p);
+          }
+          // li 内其余节点也接到后面
+          Array.from(li.childNodes).forEach(n=>{
+            if(n===first) return;
+            (wrap||frag).appendChild(n);
+          });
+          if(wrap) frag.appendChild(wrap);
+          return; // handled
+        }
       }
-
-      // 剩余正文
-      if(restHTML){
-        const pnode = document.createElement('p');
-        pnode.innerHTML = restHTML;
-        (wrap||frag).appendChild(pnode);
+      // 非小节项：保留为子列表，挂到前一个小节（如果存在），否则直接附加
+      if(frag.lastChild && (frag.lastChild.classList && !frag.lastChild.classList.contains('mom-message')) || (frag.lastChild && frag.lastChild.tagName==='H4')){
+        // 如果最后一个是 h4，把它后面生成一个容器
+        if(frag.lastChild.tagName==='H4'){
+          const div = document.createElement('div');
+          frag.appendChild(div);
+        }
       }
-
-      // 把 li 中除了 firstP 的其他节点（可能包含列表等）也搬过来
-      Array.from(li.childNodes).forEach(n=>{
-        if(n===firstP) return;
-        (wrap||frag).appendChild(n);
-      });
-
-      if(wrap) frag.appendChild(wrap);
+      frag.appendChild(li);
     });
-
     ul.replaceWith(frag);
   });
 
-  // 3) 为仍然存在的 h4 添加 emoji
-  container.querySelectorAll('h4').forEach(h=>{
-    const t = h.textContent.trim();
-    if(!/^[🔍👨‍⚕️✅💝]/.test(t)) h.textContent = mapEmoji(t);
+  // 方案B：若仍有段落形态的 "**小节名**："，也提升为 h4 + p
+  container.querySelectorAll('p').forEach(p=>{
+    const first = p.firstElementChild;
+    if(first && first.tagName==='STRONG'){
+      const raw = first.textContent.trim();
+      const lab = raw.replace(/\s+/g,'');
+      if(secNames.some(n=>n.replace(/\s+/g,'')===lab)){
+        const h4 = document.createElement('h4');
+        h4.textContent = addEmoji(raw);
+        p.parentNode.insertBefore(h4, p);
+        p.innerHTML = p.innerHTML.replace(/^\s*<strong>.*?<\/strong>\s*[：:]?\s*/,'').trim();
+        if(!p.textContent.trim()) p.remove();
+      }
+    }
   });
 
-  // 4) 将“给妈妈&爸爸的话”若是 h4 结构，包成暖橙卡片
+  // 给所有 h4 加 emoji（兜底）
   container.querySelectorAll('h4').forEach(h=>{
-    const text = h.textContent.replace(/^[🔍👨‍⚕️✅💝]\s*/,'').trim();
-    if(/给妈妈|给爸爸/.test(text) && !h.closest('.mom-message')){
-      const wrap = document.createElement('div'); wrap.className='mom-message';
+    const t = h.textContent.trim();
+    if(!/^[🔍👨‍⚕️✅💝]/.test(t)) h.textContent = addEmoji(t);
+  });
+
+  // 把“给妈妈 & 爸爸的话”块包成暖橙卡片（兜底）
+  container.querySelectorAll('h4').forEach(h=>{
+    const t = h.textContent.replace(/^[🔍👨‍⚕️✅💝]\s*/,'').trim();
+    if(/给妈妈|给爸爸/.test(t) && !h.closest('.mom-message')){
+      const wrap = document.createElement('div'); wrap.className = 'mom-message';
       wrap.appendChild(h.cloneNode(true));
       let n = h.nextSibling;
       while(n && !(n.nodeType===1 && n.tagName==='H4')){
